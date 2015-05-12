@@ -1,0 +1,34 @@
+{
+  "name": "textarea",
+  "version": "0.0.0",
+  "description": "Fluent API for textarea manipulation",
+  "main": "src/index.js",
+  "devDependencies": {
+    "mocha": "*",
+    "eslint": "*",
+    "pre-commit": "*"
+  },
+  "pre-commit": [
+    "test"
+  ],
+  "scripts": {
+    "pretest": "eslint .",
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:inca/textarea"
+  },
+  "keywords": [
+    "textarea",
+    "selection",
+    "manipulation",
+    "keypress"
+  ],
+  "author": "Boris Okunskiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inca/textarea/issues"
+  },
+  "homepage": "https://github.com/inca/textarea"
+}
