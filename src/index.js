@@ -10,3 +10,4 @@ var TextArea = module.exports = exports = function (textarea) {
 };
 
 require('./selection');
+require('./manipulation');

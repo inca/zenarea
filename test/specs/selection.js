@@ -18,7 +18,7 @@ describe('Selection API', function () {
   });
 
   it('getSelection', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         window._ta._textarea.selectionStart = 6;
         window._ta._textarea.selectionEnd = 10;
@@ -33,7 +33,7 @@ describe('Selection API', function () {
   });
 
   it('setSelection', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(11, 22)
@@ -56,7 +56,7 @@ describe('Selection API', function () {
   });
 
   it('selectAll', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .selectAll()
@@ -68,7 +68,7 @@ describe('Selection API', function () {
   });
 
   it('selectCurrentLines', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(16)     // Caret is on the second line
@@ -94,7 +94,7 @@ describe('Selection API', function () {
   });
 
   it('selectLeft', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(16)
@@ -111,7 +111,7 @@ describe('Selection API', function () {
   });
 
   it('selectRight', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(16)
@@ -128,7 +128,7 @@ describe('Selection API', function () {
   });
 
   it('expandSelection', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(14, 16)       // Sec|on|d ...
@@ -156,7 +156,7 @@ describe('Selection API', function () {
   });
 
   it('expandSelection (cornercase on start)', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(0)
@@ -184,7 +184,7 @@ describe('Selection API', function () {
   });
 
   it('expandSelection (cornercase on end)', function (done) {
-    browser.open('/selection.html')
+    browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
           .setSelection(44)
