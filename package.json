@@ -6,14 +6,19 @@
   "devDependencies": {
     "mocha": "*",
     "eslint": "*",
-    "pre-commit": "*"
+    "pre-commit": "*",
+    "navit": "*",
+    "phantomjs": "1.x.x",
+    "express": "*",
+    "browserify-middleware": "*",
+    "chai": "*"
   },
   "pre-commit": [
     "test"
   ],
   "scripts": {
     "pretest": "eslint .",
-    "test": "mocha -R spec"
+    "test": "mocha -R spec test/specs -t 10s -s 5s"
   },
   "repository": {
     "type": "git",
