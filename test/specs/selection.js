@@ -17,21 +17,6 @@ describe('Selection API', function () {
     });
   });
 
-  it('getSelection', function (done) {
-    browser.open('/simple.html')
-      .get.evaluate(function () {
-        window._ta._textarea.selectionStart = 6;
-        window._ta._textarea.selectionEnd = 10;
-        return window._ta.getSelection();
-      }, function (selection) {
-        assert.equal(selection.start, 6);
-        assert.equal(selection.end, 10);
-        assert.equal(selection.length, 4);
-        assert.equal(selection.text, 'line');
-      })
-      .run(done);
-  });
-
   it('setSelection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {

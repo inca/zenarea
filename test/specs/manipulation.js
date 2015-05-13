@@ -17,7 +17,7 @@ describe('Manipulation API', function () {
     });
   });
 
-  it('insertText (w/o preserveSelection)', function (done) {
+  it('insertText w/o preserveSelection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
@@ -32,7 +32,7 @@ describe('Manipulation API', function () {
       .run(done);
   });
 
-  it('insertText (w/ preserveSelection)', function (done) {
+  it('insertText w/ preserveSelection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
@@ -43,6 +43,60 @@ describe('Manipulation API', function () {
       }, function (selection) {
         assert.equal(selection.start, 11);
         assert.equal(selection.text, 'World');
+      })
+      .run(done);
+  });
+
+  it('indent at caret', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)  // Secon|d
+          .indent()
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Secon  d line');
+      })
+      .run(done);
+  });
+
+  it('indent at selection', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(15, 16)  // Seco|n|d
+          .indent()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'n');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, '  Second line');
+      })
+      .run(done);
+  });
+
+  it('indent at multiline', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(8, 14)    // First li|ne Sec|ond
+          .indent()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'ne\n  Sec');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, '  First line\n  Second line');
       })
       .run(done);
   });

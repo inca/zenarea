@@ -1,6 +1,7 @@
 'use strict';
 
-var TextArea = require('./index');
+var TextArea = require('./index')
+  , utils = require('./utils');
 
 /**
  * Inserts specified `text` into current caret position.
@@ -25,5 +26,28 @@ TextArea.prototype.insertText = function (text, preserveSelection) {
     this.setSelection(sel.start, sel.start + text.length);
   else
     this.setSelection(sel.start + text.length);
+  return this;
+};
+
+/**
+ * Prepends specified `indentation` (two spaces by default) to each selected line,
+ * preserving the original selection.
+ *
+ * If user selection is empty, just inserts `indentation` at caret position.
+ */
+TextArea.prototype.indent = function (indentation) {
+  if (indentation == null)
+    indentation = '  ';
+  var origSel = this.getSelection();
+  if (!origSel.length)
+    return this.insertText(indentation);
+  this.selectCurrentLines();
+  var sel = this.getSelection();
+  var linesCount = utils.countChars(sel.text, '\n') + 1;
+  sel.text = sel.text.replace(/^/gm, indentation);
+  sel.start = origSel.start + indentation.length;
+  sel.end = origSel.end + linesCount * indentation.length;
+  this.insertText(sel.text);
+  this.setSelection(sel.start, sel.end);
   return this;
 };
