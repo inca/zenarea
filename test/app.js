@@ -16,3 +16,5 @@ app.use(express.static(path.join(__dirname, 'fixtures')));
 app.run = function (done) {
   server.listen(12345, done);
 };
+
+app.run();

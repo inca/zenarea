@@ -62,7 +62,7 @@ describe('Selection API', function () {
           .selectAll()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.length, 33);
+        assert.equal(selection.length, 44);
       })
       .run(done);
   });
@@ -89,6 +89,124 @@ describe('Selection API', function () {
         assert.equal(selection.start, 0);
         assert.equal(selection.end, 10);
         assert.equal(selection.length, 10);
+      })
+      .run(done);
+  });
+
+  it('selectLeft', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)
+          .selectLeft(function (sel) {
+            return sel.text.length == 4;
+          })
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 12);
+        assert.equal(selection.end, 16);
+        assert.equal(selection.length, 4);
+      })
+      .run(done);
+  });
+
+  it('selectRight', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)
+          .selectRight(function (sel) {
+            return sel.text.length == 4;
+          })
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 16);
+        assert.equal(selection.end, 20);
+        assert.equal(selection.length, 4);
+      })
+      .run(done);
+  });
+
+  it('expandSelection', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(14, 16)       // Sec|on|d ...
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Second');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Second line');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 0);
+        assert.equal(selection.length, 44);
+      })
+      .run(done);
+  });
+
+  it('expandSelection (cornercase on start)', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(0)
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'First');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'First line');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 0);
+        assert.equal(selection.length, 44);
+      })
+      .run(done);
+  });
+
+  it('expandSelection (cornercase on end)', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(44)
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'block');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'New block');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .expandSelection()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 0);
+        assert.equal(selection.length, 44);
       })
       .run(done);
   });

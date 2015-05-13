@@ -1,6 +1,7 @@
 'use strict';
 
-var TextArea = require('./index');
+var TextArea = require('./index')
+  , utils = require('./utils');
 
 /**
  * Returns a selection object containing `start`, `end`, `length` and `text`
@@ -83,8 +84,7 @@ TextArea.prototype.setSelection = function (start, end) {
  * Expands user selection to entire textarea content.
  */
 TextArea.prototype.selectAll = function () {
-  var el = this._textarea;
-  this.setSelection(0, el.value.length);
+  this.setSelection(0, this._textarea.value.length);
   return this;
 };
 
@@ -92,27 +92,66 @@ TextArea.prototype.selectAll = function () {
  * Expands user selection to span currently selected lines.
  */
 TextArea.prototype.selectCurrentLines = function () {
-  var el = this._textarea
-    , value = el.value
+  var value = this._textarea.value
     , sel = this.getSelection();
-  sel.start = Math.max(0, value.lastIndexOf('\n', sel.start) + 1);
+  sel.start = Math.max(0, value.lastIndexOf('\n', sel.start - 1) + 1);
   sel.end = Math.min(value.length, value.indexOf('\n', sel.end));
+  if (sel.end == -1)
+    sel.end = value.length;
   this.setSelection(sel.start, sel.end);
   return this;
 };
 
 /**
- * Expands user selection: from caret to word, from word to line,
- * from line to block, from block to everything.
+ * Expands user selection to the left char-by-char until passed predicate function
+ * `predicate(selection)` returns true, or until the start of input is reached.
+ */
+TextArea.prototype.selectLeft = function (predicate) {
+  var sel = this.getSelection();
+  while (!predicate(sel) && sel.start > 0) {
+    this.setSelection(sel.start - 1, sel.end);
+    sel = this.getSelection();
+  }
+  return this;
+};
+
+/**
+ * Expands user selection to the right char-by-char until passed predicate function
+ * `predicate(selection)` returns true, or until the end of input is reached.
+ */
+TextArea.prototype.selectRight = function (predicate) {
+  var el = this._textarea;
+  var sel = this.getSelection();
+  while (!predicate(sel) && sel.end < el.value.length) {
+    this.setSelection(sel.start, sel.end + 1);
+    sel = this.getSelection();
+  }
+  return this;
+};
+
+/**
+ * Expands user selection.
  */
 TextArea.prototype.expandSelection = function () {
-  var sel = this.getSelection();
-  if (/\n\s*?\n/.test(sel.text))     // Block is selected
+  var value = this._textarea.value
+    , sel = this.getSelection()
+    , prev = value.charAt(sel.start - 1)
+    , next = value.charAt(sel.end);
+  // See if whole line(s) selected
+  if (utils.isEmptyOrNewline(prev) && utils.isEmptyOrNewline(next))
     return this.selectAll();
-  if (sel.text.indexOf('\n') > -1)    // Line selected
-    return this.selectCurrentBlock();
-  if (/\s/.test(sel.text))           // Multiple words selected
+  // See if selection spans multiple words
+  if (utils.containsBoundaries(sel.text))
     return this.selectCurrentLines();
-
+  // See if whole word is selected
+  if (utils.isEmptyOrBoundary(prev) && utils.isEmptyOrBoundary(next))
+    return this.selectCurrentLines();
+  // Expand to word boundaries
+  this.selectLeft(function (sel) {
+    return utils.isEmptyOrBoundary(value.charAt(sel.start - 1));
+  });
+  this.selectRight(function (sel) {
+    return utils.isEmptyOrBoundary(value.charAt(sel.end));
+  });
   return this;
 };
