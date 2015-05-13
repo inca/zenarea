@@ -71,8 +71,9 @@ describe('Selection API', function () {
     browser.open('/selection.html')
       .get.evaluate(function () {
         return window._ta
-          .setSelection(16)    // Caret is on the second line
+          .setSelection(16)     // Caret is on the second line
           .selectCurrentLines()
+          .selectCurrentLines() // Calling repeatedly does not affect selection
           .getSelection();
       }, function (selection) {
         assert.equal(selection.start, 11);
@@ -88,40 +89,6 @@ describe('Selection API', function () {
         assert.equal(selection.start, 0);
         assert.equal(selection.end, 10);
         assert.equal(selection.length, 10);
-      })
-      .run(done);
-  });
-
-  it('selectLeft', function (done) {
-    browser.open('/selection.html')
-      .get.evaluate(function () {
-        return window._ta
-          .setSelection(16)    // Caret is on the second line
-          .selectLeft(function (sel) {
-            return sel.text.length == 4;
-          })
-          .getSelection();
-      }, function (selection) {
-        assert.equal(selection.start, 12);
-        assert.equal(selection.end, 16);
-        assert.equal(selection.length, 4);
-      })
-      .run(done);
-  });
-
-  it('selectRight', function (done) {
-    browser.open('/selection.html')
-      .get.evaluate(function () {
-        return window._ta
-          .setSelection(16)    // Caret is on the second line
-          .selectRight(function (sel) {
-            return sel.text.length == 4;
-          })
-          .getSelection();
-      }, function (selection) {
-        assert.equal(selection.start, 16);
-        assert.equal(selection.end, 20);
-        assert.equal(selection.length, 4);
       })
       .run(done);
   });

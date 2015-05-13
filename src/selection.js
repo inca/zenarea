@@ -9,9 +9,9 @@ var TextArea = require('./index');
  * Addresses all the weirdness of IE.
  */
 TextArea.prototype.getSelection = function () {
-  var el = this._textarea;
-  var start = el.selectionStart;
-  var end = el.selectionEnd;
+  var el = this._textarea
+    , start = el.selectionStart
+    , end = el.selectionEnd;
   if (typeof start == 'number' && typeof start == 'number')
     return {
       start: start,
@@ -88,15 +88,13 @@ TextArea.prototype.selectAll = function () {
   return this;
 };
 
-// Selection expansion stuff
-
 /**
  * Expands user selection to span currently selected lines.
  */
 TextArea.prototype.selectCurrentLines = function () {
-  var el = this._textarea;
-  var value = el.value;
-  var sel = this.getSelection();
+  var el = this._textarea
+    , value = el.value
+    , sel = this.getSelection();
   sel.start = Math.max(0, value.lastIndexOf('\n', sel.start) + 1);
   sel.end = Math.min(value.length, value.indexOf('\n', sel.end));
   this.setSelection(sel.start, sel.end);
@@ -104,28 +102,17 @@ TextArea.prototype.selectCurrentLines = function () {
 };
 
 /**
- * Expands user selection to the left char-by-char until passed predicate function
- * `predicate(selection)` returns true, or until the start of input is reached.
+ * Expands user selection: from caret to word, from word to line,
+ * from line to block, from block to everything.
  */
-TextArea.prototype.selectLeft = function (predicate) {
+TextArea.prototype.expandSelection = function () {
   var sel = this.getSelection();
-  while (!predicate(sel) && sel.start > 0) {
-    this.setSelection(sel.start - 1, sel.end);
-    sel = this.getSelection();
-  }
-  return this;
-};
+  if (/\n\s*?\n/.test(sel.text))     // Block is selected
+    return this.selectAll();
+  if (sel.text.indexOf('\n') > -1)    // Line selected
+    return this.selectCurrentBlock();
+  if (/\s/.test(sel.text))           // Multiple words selected
+    return this.selectCurrentLines();
 
-/**
- * Expands user selection to the right char-by-char until passed predicate function
- * `predicate(selection)` returns true, or until the end of input is reached.
- */
-TextArea.prototype.selectRight = function (predicate) {
-  var el = this._textarea;
-  var sel = this.getSelection();
-  while (!predicate(sel) && sel.end < el.value.length) {
-    this.setSelection(sel.start, sel.end + 1);
-    sel = this.getSelection();
-  }
   return this;
 };
