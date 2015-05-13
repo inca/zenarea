@@ -88,6 +88,8 @@ TextArea.prototype.selectAll = function () {
   return this;
 };
 
+// Selection expansion stuff
+
 /**
  * Expands user selection to span currently selected lines.
  */
@@ -95,8 +97,35 @@ TextArea.prototype.selectCurrentLines = function () {
   var el = this._textarea;
   var value = el.value;
   var sel = this.getSelection();
-  var start = Math.max(0, value.lastIndexOf('\n', sel.start) + 1);
-  var end = Math.min(value.length, value.indexOf('\n', sel.end));
-  this.setSelection(start, end);
+  sel.start = Math.max(0, value.lastIndexOf('\n', sel.start) + 1);
+  sel.end = Math.min(value.length, value.indexOf('\n', sel.end));
+  this.setSelection(sel.start, sel.end);
+  return this;
+};
+
+/**
+ * Expands user selection to the left char-by-char until passed predicate function
+ * `predicate(selection)` returns true, or until the start of input is reached.
+ */
+TextArea.prototype.selectLeft = function (predicate) {
+  var sel = this.getSelection();
+  while (!predicate(sel) && sel.start > 0) {
+    this.setSelection(sel.start - 1, sel.end);
+    sel = this.getSelection();
+  }
+  return this;
+};
+
+/**
+ * Expands user selection to the right char-by-char until passed predicate function
+ * `predicate(selection)` returns true, or until the end of input is reached.
+ */
+TextArea.prototype.selectRight = function (predicate) {
+  var el = this._textarea;
+  var sel = this.getSelection();
+  while (!predicate(sel) && sel.end < el.value.length) {
+    this.setSelection(sel.start, sel.end + 1);
+    sel = this.getSelection();
+  }
   return this;
 };

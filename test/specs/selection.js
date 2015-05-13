@@ -19,9 +19,6 @@ describe('Selection API', function () {
 
   it('getSelection', function (done) {
     browser.open('/selection.html')
-      .do.wait(function () {
-        return window._ta;
-      })
       .get.evaluate(function () {
         window._ta._textarea.selectionStart = 6;
         window._ta._textarea.selectionEnd = 10;
@@ -37,9 +34,6 @@ describe('Selection API', function () {
 
   it('setSelection', function (done) {
     browser.open('/selection.html')
-      .do.wait(function () {
-        return window._ta;
-      })
       .get.evaluate(function () {
         return window._ta
           .setSelection(11, 22)
@@ -49,14 +43,20 @@ describe('Selection API', function () {
         assert.equal(selection.end, 22);
         assert.equal(selection.text, 'Second line');
       })
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 16);
+        assert.equal(selection.end, 16);
+        assert.equal(selection.text, '');
+      })
       .run(done);
   });
 
   it('selectAll', function (done) {
     browser.open('/selection.html')
-      .do.wait(function () {
-        return window._ta;
-      })
       .get.evaluate(function () {
         return window._ta
           .selectAll()
@@ -69,9 +69,6 @@ describe('Selection API', function () {
 
   it('selectCurrentLines', function (done) {
     browser.open('/selection.html')
-      .do.wait(function () {
-        return window._ta;
-      })
       .get.evaluate(function () {
         return window._ta
           .setSelection(16)    // Caret is on the second line
@@ -91,6 +88,40 @@ describe('Selection API', function () {
         assert.equal(selection.start, 0);
         assert.equal(selection.end, 10);
         assert.equal(selection.length, 10);
+      })
+      .run(done);
+  });
+
+  it('selectLeft', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)    // Caret is on the second line
+          .selectLeft(function (sel) {
+            return sel.text.length == 4;
+          })
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 12);
+        assert.equal(selection.end, 16);
+        assert.equal(selection.length, 4);
+      })
+      .run(done);
+  });
+
+  it('selectRight', function (done) {
+    browser.open('/selection.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)    // Caret is on the second line
+          .selectRight(function (sel) {
+            return sel.text.length == 4;
+          })
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 16);
+        assert.equal(selection.end, 20);
+        assert.equal(selection.length, 4);
       })
       .run(done);
   });
