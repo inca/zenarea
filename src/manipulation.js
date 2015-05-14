@@ -1,6 +1,6 @@
 'use strict';
 
-var TextArea = require('./index')
+var ZenArea = require('./zenarea')
   , utils = require('./utils');
 
 /**
@@ -11,7 +11,7 @@ var TextArea = require('./index')
  * will be recreated around newly inserted text.
  * Otherwise the caret is moved to the end of newly inserted text.
  */
-TextArea.prototype.insertText = function (text, preserveSelection) {
+ZenArea.prototype.insertText = function (text, preserveSelection) {
   var el = this._textarea
     , sel = this.getSelection()
     , event = document.createEvent('TextEvent');
@@ -35,7 +35,7 @@ TextArea.prototype.insertText = function (text, preserveSelection) {
  *
  * If user selection is empty, just inserts `indentation` at caret position.
  */
-TextArea.prototype.indent = function (indentation) {
+ZenArea.prototype.indent = function (indentation) {
   if (indentation == null)
     indentation = '  ';
   var origSel = this.getSelection()
@@ -64,7 +64,7 @@ TextArea.prototype.indent = function (indentation) {
  * Removes specified `indentation` (two spaces by default) from the start of
  * each selected line, preserving the original selection.
  */
-TextArea.prototype.outdent = function (indentation) {
+ZenArea.prototype.outdent = function (indentation) {
   if (indentation == null)
     indentation = '  ';
   var origSel = this.getSelection()
@@ -110,7 +110,7 @@ TextArea.prototype.outdent = function (indentation) {
  * If `toggle` is specified and currently selected text appears to be
  * already surrounded, remove `suffix` and `prefix` instead.
  */
-TextArea.prototype.surround = function (prefix, suffix, toggle) {
+ZenArea.prototype.surround = function (prefix, suffix, toggle) {
   var sel = this.getSelection();
   var surrounded = utils.startsWith(sel.value, prefix) &&
     utils.endsWith(sel.value, suffix);

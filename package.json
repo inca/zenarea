@@ -10,8 +10,11 @@
     "navit": "*",
     "phantomjs": "1.x.x",
     "express": "*",
-    "browserify-middleware": "*",
-    "chai": "*"
+    "chai": "*",
+    "gulp": "*",
+    "gulp-browserify": "*",
+    "gulp-rename": "*",
+    "gulp-uglify": "*"
   },
   "pre-commit": [
     "test"
@@ -26,9 +29,14 @@
   },
   "keywords": [
     "textarea",
+    "editor",
     "selection",
     "manipulation",
-    "keypress"
+    "keypress",
+    "keyboard",
+    "keybindings",
+    "api",
+    "text"
   ],
   "author": "Boris Okunskiy",
   "license": "ISC",

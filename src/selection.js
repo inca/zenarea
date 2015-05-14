@@ -1,6 +1,6 @@
 'use strict';
 
-var TextArea = require('./index')
+var ZenArea = require('./zenarea')
   , utils = require('./utils');
 
 /**
@@ -9,7 +9,7 @@ var TextArea = require('./index')
  *
  * Addresses all the weirdness of IE.
  */
-TextArea.prototype.getSelection = function () {
+ZenArea.prototype.getSelection = function () {
   var el = this._textarea
     , start = el.selectionStart
     , end = el.selectionEnd;
@@ -59,7 +59,7 @@ TextArea.prototype.getSelection = function () {
 /**
  * Sets user selection as specified by `start` and `end` indices.
  */
-TextArea.prototype.setSelection = function (start, end) {
+ZenArea.prototype.setSelection = function (start, end) {
   if (end == null)
     end = start;
   if (end < start) {
@@ -84,7 +84,7 @@ TextArea.prototype.setSelection = function (start, end) {
 /**
  * Expands user selection to entire textarea content.
  */
-TextArea.prototype.selectAll = function () {
+ZenArea.prototype.selectAll = function () {
   this.setSelection(0, this.value.length);
   return this.focus();
 };
@@ -95,7 +95,7 @@ TextArea.prototype.selectAll = function () {
  *
  * If `start` == `end`, positions caret at the start of that line.
  */
-TextArea.prototype.selectLines = function (start, end) {
+ZenArea.prototype.selectLines = function (start, end) {
   if (end == null)
     end = start;
   if (end < start) {
@@ -124,7 +124,7 @@ TextArea.prototype.selectLines = function (start, end) {
 /**
  * Expands user selection to span currently selected lines.
  */
-TextArea.prototype.selectCurrentLines = function () {
+ZenArea.prototype.selectCurrentLines = function () {
   var value = this.value
     , sel = this.getSelection();
   sel.start = Math.max(0, value.lastIndexOf('\n', sel.start - 1) + 1);
@@ -139,7 +139,7 @@ TextArea.prototype.selectCurrentLines = function () {
  * Expands user selection to the left char-by-char until passed predicate function
  * `predicate(selection)` returns true, or until the start of input is reached.
  */
-TextArea.prototype.selectLeft = function (predicate) {
+ZenArea.prototype.selectLeft = function (predicate) {
   var sel = this.getSelection();
   while (!predicate(sel) && sel.start > 0) {
     this.setSelection(sel.start - 1, sel.end);
@@ -152,7 +152,7 @@ TextArea.prototype.selectLeft = function (predicate) {
  * Expands user selection to the right char-by-char until passed predicate function
  * `predicate(selection)` returns true, or until the end of input is reached.
  */
-TextArea.prototype.selectRight = function (predicate) {
+ZenArea.prototype.selectRight = function (predicate) {
   var value = this.value;
   var sel = this.getSelection();
   while (!predicate(sel) && sel.end < value.length) {
@@ -165,7 +165,7 @@ TextArea.prototype.selectRight = function (predicate) {
 /**
  * Expands user selection.
  */
-TextArea.prototype.expandSelection = function () {
+ZenArea.prototype.expandSelection = function () {
   var value = this.value
     , sel = this.getSelection()
     , prev = value.charAt(sel.start - 1)

@@ -16,14 +16,14 @@ describe('Search and replace API', function () {
   it('find', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .find(/LINE/i, 9)
           .getSelection();
       }, function (selection) {
         assert.equal(selection.value, 'line');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
@@ -35,7 +35,7 @@ describe('Search and replace API', function () {
   it('findNext', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .findNext(/Second/i)
           .selectCurrentLines()
           .getSelection();
@@ -43,7 +43,7 @@ describe('Search and replace API', function () {
         assert.equal(selection.value, 'Second line');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .findNext(/line/i)
           .selectCurrentLines()
           .getSelection();
@@ -56,14 +56,14 @@ describe('Search and replace API', function () {
   it('replace', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .replace(/LINE/i, 'string', 9)
           .getSelection();
       }, function (selection) {
         assert.equal(selection.value, 'string');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
@@ -75,7 +75,7 @@ describe('Search and replace API', function () {
   it('replaceNext', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .replaceNext(/LINE/i, 'string')
           .replaceNext(/LINE/i, 'string')
           .selectCurrentLines()
@@ -89,7 +89,7 @@ describe('Search and replace API', function () {
   it('replaceAll', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .replaceAll(/\s*LINE/gi, '')
           .selectLines(0, 3)
           .getSelection();

@@ -16,7 +16,7 @@ describe('Manipulation API', function () {
   it('insertText w/o preserveSelection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(11, 22)  // Select second line
           .insertText('Hello, ')
           .insertText('World')
@@ -31,7 +31,7 @@ describe('Manipulation API', function () {
   it('insertText w/ preserveSelection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(11, 22)  // Select second line
           .insertText('Hello, ', true)
           .insertText('World', true)
@@ -46,7 +46,7 @@ describe('Manipulation API', function () {
   it('indent at caret', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(16)  // Secon|d
           .indent()
           .selectCurrentLines()
@@ -60,7 +60,7 @@ describe('Manipulation API', function () {
   it('indent at selection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(15, 16)  // Seco|n|d
           .indent()
           .getSelection();
@@ -68,7 +68,7 @@ describe('Manipulation API', function () {
         assert.equal(selection.value, 'n');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
@@ -80,7 +80,7 @@ describe('Manipulation API', function () {
   it('indent multiline', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(8, 14)    // First li|ne Sec|ond
           .indent()
           .getSelection();
@@ -88,7 +88,7 @@ describe('Manipulation API', function () {
         assert.equal(selection.value, 'ne\n  Sec');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
@@ -100,7 +100,7 @@ describe('Manipulation API', function () {
   it('outdent at non-indented', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(16)  // Secon|d
           .outdent()
           .selectCurrentLines()
@@ -114,7 +114,7 @@ describe('Manipulation API', function () {
   it('outdent at selection', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(15, 16)  // Seco|n|d
           .indent()
           .outdent()
@@ -123,7 +123,7 @@ describe('Manipulation API', function () {
         assert.equal(selection.value, 'n');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
@@ -135,7 +135,7 @@ describe('Manipulation API', function () {
   it('outdent multiline', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(8, 14)    // First li|ne Sec|ond
           .indent()
           .indent()
@@ -146,7 +146,7 @@ describe('Manipulation API', function () {
         assert.equal(selection.value, 'ne\nSec');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
@@ -158,7 +158,7 @@ describe('Manipulation API', function () {
   it('surround', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .setSelection(6, 10)    // First |line|
           .surround('“', '”')
           .getSelection();
@@ -166,14 +166,14 @@ describe('Manipulation API', function () {
         assert.equal(selection.value, '“line”');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .surround('“', '”')   // Augments quotes
           .getSelection();
       }, function (selection) {
         assert.equal(selection.value, '““line””');
       })
       .get.evaluate(function () {
-        return window._ta
+        return window._z
           .surround('“', '”', true)   // De-surround
           .surround('“', '”', true)   // De-surround
           .getSelection();

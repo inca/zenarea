@@ -2,7 +2,7 @@
 
 _This is a work in progress. Stay tuned for 1.x.x releases!_
 
-This tiny (~20K minified) framework-agnostic library
+This tiny (~15Kb minified) framework-agnostic library
 provides fluent cross-browser API for textarea manipulation
 and binding commands to keyboard.
 
@@ -21,7 +21,11 @@ with <kbd>Tab</kbd> and remove indentation with <kbd>Shift</kbd>+<kbd>Tab</kbd>.
 
 * Vanilla JavaScript, no dependencies
 * Compatible with Browserify and RequireJS/AMD
-* No custom/shadow elements — only textarea and you
+* No custom/shadow elements — only textarea and your imagination
+
+## Commands
+
+
 
 ## License
 

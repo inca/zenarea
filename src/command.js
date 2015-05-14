@@ -1,6 +1,6 @@
 'use strict';
 
-var TextArea = require('./index')
+var ZenArea = require('./zenarea')
   , utils = require('./utils');
 
 /**
@@ -16,7 +16,7 @@ var TextArea = require('./index')
  *
  * Optional `args` is an array of arguments to pass to specified method.
  */
-TextArea.prototype.command = function (key, command, args) {
+ZenArea.prototype.command = function (key, command, args) {
   var binding = utils.parseKey(key);
   binding.command = command;
   binding.args = Array.isArray(args) ? args : [];

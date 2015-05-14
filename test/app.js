@@ -2,14 +2,13 @@
 
 var express = require('express')
   , http = require('http')
-  , browserify = require('browserify-middleware')
   , path = require('path');
 
 var app = module.exports = exports = express();
 
 var server = http.createServer(app);
 
-app.get('/zenarea.js', browserify(path.join(__dirname, 'zenarea.js')));
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
 app.use(express.static(path.join(__dirname, 'fixtures')));
 
