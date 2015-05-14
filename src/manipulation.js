@@ -26,7 +26,7 @@ TextArea.prototype.insertText = function (text, preserveSelection) {
     this.setSelection(sel.start, sel.start + text.length);
   else
     this.setSelection(sel.start + text.length);
-  return this;
+  return this.focus();
 };
 
 /**
@@ -57,7 +57,7 @@ TextArea.prototype.indent = function (indentation) {
   this.setSelection(sel.start, sel.end);
   this.insertText(sel.newText);
   this.setSelection(sel.newStart, sel.newEnd);
-  return this;
+  return this.focus();
 };
 
 /**
@@ -100,7 +100,7 @@ TextArea.prototype.outdent = function (indentation) {
   this.setSelection(sel.start, sel.end);
   this.insertText(sel.newText);
   this.setSelection(sel.newStart, sel.newEnd);
-  return this;
+  return this.focus();
 };
 
 /**

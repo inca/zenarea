@@ -77,7 +77,7 @@ TextArea.prototype.setSelection = function (start, end) {
     el.moveStart('character', start);
     el.select();
   }
-  return this;
+  return this.focus();
 };
 
 /**
@@ -85,7 +85,7 @@ TextArea.prototype.setSelection = function (start, end) {
  */
 TextArea.prototype.selectAll = function () {
   this.setSelection(0, this.value.length);
-  return this;
+  return this.focus();
 };
 
 /**
@@ -99,7 +99,7 @@ TextArea.prototype.selectCurrentLines = function () {
   if (sel.end == -1)
     sel.end = value.length;
   this.setSelection(sel.start, sel.end);
-  return this;
+  return this.focus();
 };
 
 /**
@@ -112,7 +112,7 @@ TextArea.prototype.selectLeft = function (predicate) {
     this.setSelection(sel.start - 1, sel.end);
     sel = this.getSelection();
   }
-  return this;
+  return this.focus();
 };
 
 /**
@@ -126,7 +126,7 @@ TextArea.prototype.selectRight = function (predicate) {
     this.setSelection(sel.start, sel.end + 1);
     sel = this.getSelection();
   }
-  return this;
+  return this.focus();
 };
 
 /**
@@ -153,5 +153,5 @@ TextArea.prototype.expandSelection = function () {
   this.selectRight(function (sel) {
     return utils.isEmptyOrBoundary(value.charAt(sel.end));
   });
-  return this;
+  return this.focus();
 };
