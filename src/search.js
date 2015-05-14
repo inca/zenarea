@@ -37,7 +37,7 @@ ZenArea.prototype.replace = function (regex, replacement, index) {
   this.find(regex, index);
   var sel = this.getSelection();
   if (regex.test(sel.value))  // Ensure we have found it
-    return this.insertText(replacement, true);
+    return this.insertText(sel.value.replace(regex, replacement), true);
   return this.focus();
 };
 
