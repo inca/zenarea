@@ -1,7 +1,7 @@
 {
-  "name": "textarea",
+  "name": "zenarea",
   "version": "0.1.0",
-  "description": "Fluent API for textarea manipulation",
+  "description": "Unleash the inner power of your textarea",
   "main": "src/index.js",
   "devDependencies": {
     "mocha": "*",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:inca/textarea"
+    "url": "git@github.com:inca/zenarea"
   },
   "keywords": [
     "textarea",
@@ -33,7 +33,7 @@
   "author": "Boris Okunskiy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/inca/textarea/issues"
+    "url": "https://github.com/inca/zenarea/issues"
   },
-  "homepage": "https://github.com/inca/textarea"
+  "homepage": "https://github.com/inca/zenarea"
 }

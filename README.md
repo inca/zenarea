@@ -1,10 +1,27 @@
-# Fluent API for textarea manipulation
+# Zen Area — textarea with inner power
 
-Transform your textarea into powerful zen authoring tool
-by easily binding key press events, manipulating selection,
-inserting, replacing and lots of awesomeness.
+_This is a work in progress. Stay tuned for 1.x.x releases!_
 
-This is a work-in-progress project, stay tuned for 0.x.x releases.
+This tiny (~20K minified) framework-agnostic library
+provides fluent cross-browser API for textarea manipulation
+and binding commands to keyboard.
+
+Just add a few lines of code:
+
+```js
+new ZenArea(document.querySelector('textarea'))
+  .command('Tab', 'indent')
+  .command('Shift + Tab', 'outdent');
+```
+
+— and you have trained your textarea to indent selected lines
+with <kbd>Tab</kbd> and remove indentation with <kbd>Shift</kbd>+<kbd>Tab</kbd>.
+
+## Features
+
+* Vanilla JavaScript (no dependencies)
+* Compatible with Browserify and RequireJS/AMD
+* No custom/shadow elements — only textarea and you
 
 ## License
 
