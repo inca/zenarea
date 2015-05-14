@@ -1,7 +1,6 @@
 'use strict';
 
-var TextArea = require('./index')
-  , utils = require('./utils');
+var TextArea = require('./index');
 
 /**
  * Inserts specified `text` into current caret position.
@@ -38,16 +37,26 @@ TextArea.prototype.insertText = function (text, preserveSelection) {
 TextArea.prototype.indent = function (indentation) {
   if (indentation == null)
     indentation = '  ';
-  var origSel = this.getSelection();
+  var origSel = this.getSelection()
+    , value = this.value;
   if (!origSel.length)
     return this.insertText(indentation);
-  this.selectCurrentLines();
-  var sel = this.getSelection();
-  var linesCount = utils.countChars(sel.text, '\n') + 1;
-  sel.text = sel.text.replace(/^/gm, indentation);
-  sel.start = origSel.start + indentation.length;
-  sel.end = origSel.end + linesCount * indentation.length;
-  this.insertText(sel.text);
+  console.log(origSel);
+  // Expand up to line start
+  var sel = {
+    start: Math.max(0, value.lastIndexOf('\n', origSel.start - 1) + 1),
+    end: origSel.end
+  };
+  sel.text = value.substring(sel.start, sel.end);
+  // Add indentation
+  sel.newText = sel.text.replace(/^/gm, indentation);
+  // Recalc selection
+  sel.newStart = origSel.start + indentation.length;
+  sel.newEnd = origSel.end + sel.newText.length - sel.text.length;
+  console.log(sel);
+  // Apply new stuff
   this.setSelection(sel.start, sel.end);
+  this.insertText(sel.newText);
+  this.setSelection(sel.newStart, sel.newEnd);
   return this;
 };

@@ -9,5 +9,11 @@ var TextArea = module.exports = exports = function (textarea) {
     throw new Error('Pass valid <textarea> to TextArea constructor.');
 };
 
+Object.defineProperty(TextArea.prototype, 'value', {
+  get: function () {
+    return this._textarea.value;
+  }
+});
+
 require('./selection');
 require('./manipulation');

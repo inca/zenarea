@@ -84,7 +84,7 @@ TextArea.prototype.setSelection = function (start, end) {
  * Expands user selection to entire textarea content.
  */
 TextArea.prototype.selectAll = function () {
-  this.setSelection(0, this._textarea.value.length);
+  this.setSelection(0, this.value.length);
   return this;
 };
 
@@ -92,7 +92,7 @@ TextArea.prototype.selectAll = function () {
  * Expands user selection to span currently selected lines.
  */
 TextArea.prototype.selectCurrentLines = function () {
-  var value = this._textarea.value
+  var value = this.value
     , sel = this.getSelection();
   sel.start = Math.max(0, value.lastIndexOf('\n', sel.start - 1) + 1);
   sel.end = Math.min(value.length, value.indexOf('\n', sel.end));
@@ -133,7 +133,7 @@ TextArea.prototype.selectRight = function (predicate) {
  * Expands user selection.
  */
 TextArea.prototype.expandSelection = function () {
-  var value = this._textarea.value
+  var value = this.value
     , sel = this.getSelection()
     , prev = value.charAt(sel.start - 1)
     , next = value.charAt(sel.end);
