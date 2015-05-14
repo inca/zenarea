@@ -155,3 +155,34 @@ TextArea.prototype.expandSelection = function () {
   });
   return this.focus();
 };
+
+/**
+ * Selects first match of regular expression, starting at
+ * specified `index` (or from the start if not provided).
+ * The `g` flag of regex is ignored; however, you can use
+ * it in conjunction with `regex.lastIndex` to work with
+ * all occurrences.
+ *
+ * If regex does not match, do not alter the selection.
+ */
+TextArea.prototype.selectRegex = function (regex, index) {
+  index = index || 0;
+  var area = this.value.substring(index);
+  var match = regex.exec(area);
+  if (match)
+    return this.setSelection(index + match.index,
+        index + match.index + match[0].length);
+  return this.focus();
+};
+
+/**
+ * Selects first match of regular expression, starting at
+ * the end of current user selection.
+ *
+ * If regex does not match, do not alter the selection.
+ */
+TextArea.prototype.selectNext = function (regex) {
+  var sel = this.getSelection();
+  return this.selectRegex(regex, sel.end);
+};
+

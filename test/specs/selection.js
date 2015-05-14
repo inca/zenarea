@@ -196,4 +196,44 @@ describe('Selection API', function () {
       .run(done);
   });
 
+  it('selectRegex', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .selectRegex(/LINE/i, 9)
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'line');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Second line');
+      })
+      .run(done);
+  });
+
+  it('selectNext', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .selectNext(/Second/i)
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Second line');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectNext(/line/i)
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Third line');
+      })
+      .run(done);
+  });
+
 });
