@@ -11,7 +11,7 @@ var TextArea = require('./index')
  * `Ctrl + Shift + Ins`, `Meta + S`, etc.
  *
  * The `command` is simply a method name, which must be exposed on
- * the TextArea instance (by adding it to `TextArea.prototype` or directly
+ * the ZenArea instance (by adding it to `ZenArea.prototype` or directly
  * to the instance).
  *
  * Optional `args` is an array of arguments to pass to specified method.

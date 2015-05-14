@@ -3,14 +3,14 @@
 var utils = require('./utils');
 
 /**
- * Events listeners which are hooked up on TextArea instantiation.
+ * Events listeners which are hooked up on ZenArea instantiation.
  *
  * Use `destroy()` method to unbind them, or `init()` to bind them again.
  */
 module.exports = exports = {
 
   keydown: function (ev) {
-    var _ta = this._textarea;
+    var z = this._zen;
     var name = utils.normalizeName({
       name: utils.codeToKey(ev.keyCode),
       meta: ev.metaKey,
@@ -18,16 +18,16 @@ module.exports = exports = {
       shift: ev.shiftKey,
       alt: ev.altKey
     });
-    var binding = _ta._keyBindings[name];
+    var binding = z._keyBindings[name];
     if (!binding)
       return true;
     var cmd = binding.command;
     if (typeof cmd == 'string')
-      cmd = _ta[cmd];
+      cmd = z[cmd];
     if (typeof cmd == 'function') {
       ev.preventDefault();
       ev.stopPropagation();
-      cmd.apply(_ta, binding.args);
+      cmd.apply(z, binding.args);
       return false;
     }
     return true;

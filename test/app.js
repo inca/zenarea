@@ -9,7 +9,7 @@ var app = module.exports = exports = express();
 
 var server = http.createServer(app);
 
-app.get('/textarea.js', browserify(path.join(__dirname, 'textarea.js')));
+app.get('/zenarea.js', browserify(path.join(__dirname, 'zenarea.js')));
 
 app.use(express.static(path.join(__dirname, 'fixtures')));
 
