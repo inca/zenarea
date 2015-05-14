@@ -7,6 +7,8 @@ var TextArea = module.exports = exports = function (textarea) {
   this._textarea = textarea[0] || textarea;
   if (!this._textarea instanceof HTMLTextAreaElement)
     throw new Error('Pass valid <textarea> to TextArea constructor.');
+  // Key bindings
+  this._keyBindings = {};
 };
 
 require('./core');
