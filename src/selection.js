@@ -90,6 +90,38 @@ TextArea.prototype.selectAll = function () {
 };
 
 /**
+ * Selects lines between `start` (inclusively) and `end` (exclusively)
+ * zero-based indices.
+ *
+ * If `start` == `end`, positions caret at the start of that line.
+ */
+TextArea.prototype.selectLines = function (start, end) {
+  if (end == null)
+    end = start;
+  if (end < start) {
+    var t = end;
+    end = start;
+    start = t;
+  }
+  var value = this.value
+    , index = 0;
+  // Find start index
+  for (var i = 0; i < start; i++) {
+    index = value.indexOf('\n', index) + 1;
+    if (!index) // EOF
+      return this.setSelection(value.length, value.length);
+  }
+  var startIndex = index;
+  // Find end index
+  for (i = 0; i < (end - start); i++) {
+    index = value.indexOf('\n', index) + 1;
+    if (!index) // EOF
+      return this.setSelection(startIndex, value.length);
+  }
+  return this.setSelection(startIndex, start == end ? index : index - 1);
+};
+
+/**
  * Expands user selection to span currently selected lines.
  */
 TextArea.prototype.selectCurrentLines = function () {

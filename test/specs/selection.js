@@ -48,6 +48,33 @@ describe('Selection API', function () {
       .run(done);
   });
 
+  it('selectLines', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .selectLines(1, 2)
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.value, 'Second line');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectLines(1, 1)
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.start, 11);
+        assert.equal(selection.end, 11);
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectLines(0, 3)
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.value, 'First line\nSecond line\nThird line');
+      })
+      .run(done);
+  });
+
   it('selectCurrentLines', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
