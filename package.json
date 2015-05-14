@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "pretest": "eslint .",
-    "test": "mocha -R spec test/specs -t 10s -s 5s"
+    "test": "mocha -R spec test/specs/index.js -t 10s -s 5s"
   },
   "repository": {
     "type": "git",

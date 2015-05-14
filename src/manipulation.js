@@ -47,15 +47,15 @@ TextArea.prototype.indent = function (indentation) {
     start: Math.max(0, value.lastIndexOf('\n', origSel.start - 1) + 1),
     end: origSel.end
   };
-  sel.text = value.substring(sel.start, sel.end);
+  sel.value = value.substring(sel.start, sel.end);
   // Add indentation
-  sel.newText = sel.text.replace(/^/gm, indentation);
+  sel.newValue = sel.value.replace(/^/gm, indentation);
   // Recalc selection
   sel.newStart = origSel.start + indentation.length;
-  sel.newEnd = origSel.end + sel.newText.length - sel.text.length;
+  sel.newEnd = origSel.end + sel.newValue.length - sel.value.length;
   // Apply new stuff
   this.setSelection(sel.start, sel.end);
-  this.insertText(sel.newText);
+  this.insertText(sel.newValue);
   this.setSelection(sel.newStart, sel.newEnd);
   return this.focus();
 };
@@ -74,8 +74,8 @@ TextArea.prototype.outdent = function (indentation) {
     start: Math.max(0, value.lastIndexOf('\n', origSel.start - 1) + 1),
     end: origSel.end
   };
-  sel.text = value.substring(sel.start, sel.end);
-  sel.newText = sel.text;
+  sel.value = value.substring(sel.start, sel.end);
+  sel.newValue = sel.value;
   // Remove indentation
   function removeIndentPortion(str, index) {
     for (var i = 0; i < indentation.length; i++)
@@ -86,19 +86,19 @@ TextArea.prototype.outdent = function (indentation) {
   }
   // First, remove a portion on first line and remember the difference
   // to shift selection start accordingly.
-  sel.newText = removeIndentPortion(sel.newText, 0);
-  sel.newStart = origSel.start - (sel.text.length - sel.newText.length);
+  sel.newValue = removeIndentPortion(sel.newValue, 0);
+  sel.newStart = origSel.start - (sel.value.length - sel.newValue.length);
   // Now remove other indents
-  var i = sel.newText.indexOf('\n');
-  while (i != -1 && i < sel.newText.length) {
-    sel.newText = removeIndentPortion(sel.newText, i + 1);
-    i = sel.newText.indexOf('\n', i + 1);
+  var i = sel.newValue.indexOf('\n');
+  while (i != -1 && i < sel.newValue.length) {
+    sel.newValue = removeIndentPortion(sel.newValue, i + 1);
+    i = sel.newValue.indexOf('\n', i + 1);
   }
   // Recalc selection
-  sel.newEnd = origSel.end - (sel.text.length - sel.newText.length);
+  sel.newEnd = origSel.end - (sel.value.length - sel.newValue.length);
   // Apply new stuff
   this.setSelection(sel.start, sel.end);
-  this.insertText(sel.newText);
+  this.insertText(sel.newValue);
   this.setSelection(sel.newStart, sel.newEnd);
   return this.focus();
 };
@@ -112,12 +112,12 @@ TextArea.prototype.outdent = function (indentation) {
  */
 TextArea.prototype.surround = function (prefix, suffix, toggle) {
   var sel = this.getSelection();
-  var surrounded = utils.startsWith(sel.text, prefix) &&
-    utils.endsWith(sel.text, suffix);
+  var surrounded = utils.startsWith(sel.value, prefix) &&
+    utils.endsWith(sel.value, suffix);
   if (toggle && surrounded) {
-    sel.text = sel.text.substring(prefix.length, sel.text.length - suffix.length);
+    sel.value = sel.value.substring(prefix.length, sel.value.length - suffix.length);
   } else {
-    sel.text = prefix + sel.text + suffix;
+    sel.value = prefix + sel.value + suffix;
   }
-  return this.insertText(sel.text, true);
+  return this.insertText(sel.value, true);
 };

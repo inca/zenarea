@@ -4,7 +4,7 @@ var TextArea = require('./index')
   , utils = require('./utils');
 
 /**
- * Returns a selection object containing `start`, `end`, `length` and `text`
+ * Returns a selection object containing `start`, `end`, `length` and `value`
  * properties of current user selection within textarea.
  *
  * Addresses all the weirdness of IE.
@@ -18,7 +18,7 @@ TextArea.prototype.getSelection = function () {
       start: start,
       end: end,
       length: end - start,
-      text: el.value.substring(start, end)
+      value: el.value.substring(start, end)
     };
   // The IE part, revisited version of
   // http://stackoverflow.com/questions/3053542#3053640
@@ -51,7 +51,8 @@ TextArea.prototype.getSelection = function () {
   return {
     start: start,
     end: end,
-    text: el.value.substring(start, end)
+    length: end - start,
+    value: el.value.substring(start, end)
   };
 };
 
@@ -141,7 +142,7 @@ TextArea.prototype.expandSelection = function () {
   if (utils.isEmptyOrNewline(prev) && utils.isEmptyOrNewline(next))
     return this.selectAll();
   // See if selection spans multiple words
-  if (utils.containsBoundaries(sel.text))
+  if (utils.containsBoundaries(sel.value))
     return this.selectCurrentLines();
   // See if whole word is selected
   if (utils.isEmptyOrBoundary(prev) && utils.isEmptyOrBoundary(next))
@@ -155,34 +156,3 @@ TextArea.prototype.expandSelection = function () {
   });
   return this.focus();
 };
-
-/**
- * Selects first match of regular expression, starting at
- * specified `index` (or from the start if not provided).
- * The `g` flag of regex is ignored; however, you can use
- * it in conjunction with `regex.lastIndex` to work with
- * all occurrences.
- *
- * If regex does not match, do not alter the selection.
- */
-TextArea.prototype.selectRegex = function (regex, index) {
-  index = index || 0;
-  var area = this.value.substring(index);
-  var match = regex.exec(area);
-  if (match)
-    return this.setSelection(index + match.index,
-        index + match.index + match[0].length);
-  return this.focus();
-};
-
-/**
- * Selects first match of regular expression, starting at
- * the end of current user selection.
- *
- * If regex does not match, do not alter the selection.
- */
-TextArea.prototype.selectNext = function (regex) {
-  var sel = this.getSelection();
-  return this.selectRegex(regex, sel.end);
-};
-

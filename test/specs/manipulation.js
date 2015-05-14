@@ -1,7 +1,6 @@
 'use strict';
 
 var navit = require('navit')
-  , app = require('../app')
   , assert = require('chai').assert;
 
 describe('Manipulation API', function () {
@@ -11,10 +10,7 @@ describe('Manipulation API', function () {
   });
 
   before(function (done) {
-    app.run(function (err) {
-      if (err) return done(err);
-      browser.run(done);
-    });
+    browser.run(done);
   });
 
   it('insertText w/o preserveSelection', function (done) {
@@ -42,7 +38,7 @@ describe('Manipulation API', function () {
           .getSelection();
       }, function (selection) {
         assert.equal(selection.start, 11);
-        assert.equal(selection.text, 'World');
+        assert.equal(selection.value, 'World');
       })
       .run(done);
   });
@@ -56,7 +52,7 @@ describe('Manipulation API', function () {
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'Secon  d line');
+        assert.equal(selection.value, 'Secon  d line');
       })
       .run(done);
   });
@@ -69,14 +65,14 @@ describe('Manipulation API', function () {
           .indent()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'n');
+        assert.equal(selection.value, 'n');
       })
       .get.evaluate(function () {
         return window._ta
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, '  Second line');
+        assert.equal(selection.value, '  Second line');
       })
       .run(done);
   });
@@ -89,14 +85,14 @@ describe('Manipulation API', function () {
           .indent()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'ne\n  Sec');
+        assert.equal(selection.value, 'ne\n  Sec');
       })
       .get.evaluate(function () {
         return window._ta
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, '  First line\n  Second line');
+        assert.equal(selection.value, '  First line\n  Second line');
       })
       .run(done);
   });
@@ -110,7 +106,7 @@ describe('Manipulation API', function () {
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'Second line');
+        assert.equal(selection.value, 'Second line');
       })
       .run(done);
   });
@@ -124,14 +120,14 @@ describe('Manipulation API', function () {
           .outdent()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'n');
+        assert.equal(selection.value, 'n');
       })
       .get.evaluate(function () {
         return window._ta
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'Second line');
+        assert.equal(selection.value, 'Second line');
       })
       .run(done);
   });
@@ -147,14 +143,14 @@ describe('Manipulation API', function () {
           .outdent()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'ne\nSec');
+        assert.equal(selection.value, 'ne\nSec');
       })
       .get.evaluate(function () {
         return window._ta
           .selectCurrentLines()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'First line\nSecond line');
+        assert.equal(selection.value, 'First line\nSecond line');
       })
       .run(done);
   });
@@ -167,14 +163,14 @@ describe('Manipulation API', function () {
           .surround('“', '”')
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, '“line”');
+        assert.equal(selection.value, '“line”');
       })
       .get.evaluate(function () {
         return window._ta
           .surround('“', '”')   // Augments quotes
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, '““line””');
+        assert.equal(selection.value, '““line””');
       })
       .get.evaluate(function () {
         return window._ta
@@ -182,7 +178,7 @@ describe('Manipulation API', function () {
           .surround('“', '”', true)   // De-surround
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'line');
+        assert.equal(selection.value, 'line');
       })
       .run(done);
   });

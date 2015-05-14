@@ -11,4 +11,5 @@ var TextArea = module.exports = exports = function (textarea) {
 
 require('./core');
 require('./selection');
+require('./search');
 require('./manipulation');

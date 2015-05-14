@@ -1,7 +1,6 @@
 'use strict';
 
 var navit = require('navit')
-  , app = require('../app')
   , assert = require('chai').assert;
 
 describe('Selection API', function () {
@@ -11,10 +10,7 @@ describe('Selection API', function () {
   });
 
   before(function (done) {
-    app.run(function (err) {
-      if (err) return done(err);
-      browser.run(done);
-    });
+    browser.run(done);
   });
 
   it('setSelection', function (done) {
@@ -26,7 +22,7 @@ describe('Selection API', function () {
       }, function (selection) {
         assert.equal(selection.start, 11);
         assert.equal(selection.end, 22);
-        assert.equal(selection.text, 'Second line');
+        assert.equal(selection.value, 'Second line');
       })
       .get.evaluate(function () {
         return window._ta
@@ -35,7 +31,7 @@ describe('Selection API', function () {
       }, function (selection) {
         assert.equal(selection.start, 16);
         assert.equal(selection.end, 16);
-        assert.equal(selection.text, '');
+        assert.equal(selection.value, '');
       })
       .run(done);
   });
@@ -84,7 +80,7 @@ describe('Selection API', function () {
         return window._ta
           .setSelection(16)
           .selectLeft(function (sel) {
-            return sel.text.length == 4;
+            return sel.value.length == 4;
           })
           .getSelection();
       }, function (selection) {
@@ -101,7 +97,7 @@ describe('Selection API', function () {
         return window._ta
           .setSelection(16)
           .selectRight(function (sel) {
-            return sel.text.length == 4;
+            return sel.value.length == 4;
           })
           .getSelection();
       }, function (selection) {
@@ -120,14 +116,14 @@ describe('Selection API', function () {
           .expandSelection()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'Second');
+        assert.equal(selection.value, 'Second');
       })
       .get.evaluate(function () {
         return window._ta
           .expandSelection()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'Second line');
+        assert.equal(selection.value, 'Second line');
       })
       .get.evaluate(function () {
         return window._ta
@@ -148,14 +144,14 @@ describe('Selection API', function () {
           .expandSelection()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'First');
+        assert.equal(selection.value, 'First');
       })
       .get.evaluate(function () {
         return window._ta
           .expandSelection()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'First line');
+        assert.equal(selection.value, 'First line');
       })
       .get.evaluate(function () {
         return window._ta
@@ -176,14 +172,14 @@ describe('Selection API', function () {
           .expandSelection()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'block');
+        assert.equal(selection.value, 'block');
       })
       .get.evaluate(function () {
         return window._ta
           .expandSelection()
           .getSelection();
       }, function (selection) {
-        assert.equal(selection.text, 'New block');
+        assert.equal(selection.value, 'New block');
       })
       .get.evaluate(function () {
         return window._ta
@@ -196,44 +192,5 @@ describe('Selection API', function () {
       .run(done);
   });
 
-  it('selectRegex', function (done) {
-    browser.open('/simple.html')
-      .get.evaluate(function () {
-        return window._ta
-          .selectRegex(/LINE/i, 9)
-          .getSelection();
-      }, function (selection) {
-        assert.equal(selection.text, 'line');
-      })
-      .get.evaluate(function () {
-        return window._ta
-          .selectCurrentLines()
-          .getSelection();
-      }, function (selection) {
-        assert.equal(selection.text, 'Second line');
-      })
-      .run(done);
-  });
-
-  it('selectNext', function (done) {
-    browser.open('/simple.html')
-      .get.evaluate(function () {
-        return window._ta
-          .selectNext(/Second/i)
-          .selectCurrentLines()
-          .getSelection();
-      }, function (selection) {
-        assert.equal(selection.text, 'Second line');
-      })
-      .get.evaluate(function () {
-        return window._ta
-          .selectNext(/line/i)
-          .selectCurrentLines()
-          .getSelection();
-      }, function (selection) {
-        assert.equal(selection.text, 'Third line');
-      })
-      .run(done);
-  });
 
 });
