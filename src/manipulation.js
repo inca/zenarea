@@ -58,3 +58,46 @@ TextArea.prototype.indent = function (indentation) {
   this.setSelection(sel.newStart, sel.newEnd);
   return this;
 };
+
+/**
+ * Removes specified `indentation` (two spaces by default) from the start of
+ * each selected line, preserving the original selection.
+ */
+TextArea.prototype.outdent = function (indentation) {
+  if (indentation == null)
+    indentation = '  ';
+  var origSel = this.getSelection()
+    , value = this.value;
+  // Expand up to line start
+  var sel = {
+    start: Math.max(0, value.lastIndexOf('\n', origSel.start - 1) + 1),
+    end: origSel.end
+  };
+  sel.text = value.substring(sel.start, sel.end);
+  sel.newText = sel.text;
+  // Remove indentation
+  function removeIndentPortion(str, index) {
+    for (var i = 0; i < indentation.length; i++)
+      if (str.charAt(index) == indentation.charAt(i))
+        str = str.substring(0, index) + str.substring(index + 1);
+      else break;
+    return str;
+  }
+  // First, remove a portion on first line and remember the difference
+  // to shift selection start accordingly.
+  sel.newText = removeIndentPortion(sel.newText, 0);
+  sel.newStart = origSel.start - (sel.text.length - sel.newText.length);
+  // Now remove other indents
+  var i = sel.newText.indexOf('\n');
+  while (i != -1 && i < sel.newText.length) {
+    sel.newText = removeIndentPortion(sel.newText, i + 1);
+    i = sel.newText.indexOf('\n', i + 1);
+  }
+  // Recalc selection
+  sel.newEnd = origSel.end - (sel.text.length - sel.newText.length);
+  // Apply new stuff
+  this.setSelection(sel.start, sel.end);
+  this.insertText(sel.newText);
+  this.setSelection(sel.newStart, sel.newEnd);
+  return this;
+};

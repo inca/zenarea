@@ -24,13 +24,3 @@ exports.containsBoundaries = function (str) {
       return true;
   return false;
 };
-
-exports.countChars = function (str, substr) {
-  var count = 0;
-  var i = str.indexOf(substr);
-  while (i != -1) {
-    count += 1;
-    i = str.indexOf(substr, i + substr.length);
-  }
-  return count;
-};

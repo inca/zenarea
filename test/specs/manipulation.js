@@ -81,7 +81,7 @@ describe('Manipulation API', function () {
       .run(done);
   });
 
-  it('indent at multiline', function (done) {
+  it('indent multiline', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._ta
@@ -97,6 +97,64 @@ describe('Manipulation API', function () {
           .getSelection();
       }, function (selection) {
         assert.equal(selection.text, '  First line\n  Second line');
+      })
+      .run(done);
+  });
+
+  it('outdent at non-indented', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(16)  // Secon|d
+          .outdent()
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Second line');
+      })
+      .run(done);
+  });
+
+  it('outdent at selection', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(15, 16)  // Seco|n|d
+          .indent()
+          .outdent()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'n');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'Second line');
+      })
+      .run(done);
+  });
+
+  it('outdent multiline', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(8, 14)    // First li|ne Sec|ond
+          .indent()
+          .indent()
+          .outdent()
+          .outdent()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'ne\nSec');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .selectCurrentLines()
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'First line\nSecond line');
       })
       .run(done);
   });

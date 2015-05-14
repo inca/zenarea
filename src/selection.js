@@ -120,9 +120,9 @@ TextArea.prototype.selectLeft = function (predicate) {
  * `predicate(selection)` returns true, or until the end of input is reached.
  */
 TextArea.prototype.selectRight = function (predicate) {
-  var el = this._textarea;
+  var value = this.value;
   var sel = this.getSelection();
-  while (!predicate(sel) && sel.end < el.value.length) {
+  while (!predicate(sel) && sel.end < value.length) {
     this.setSelection(sel.start, sel.end + 1);
     sel = this.getSelection();
   }
