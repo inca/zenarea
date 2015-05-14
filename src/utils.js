@@ -24,3 +24,11 @@ exports.containsBoundaries = function (str) {
       return true;
   return false;
 };
+
+exports.startsWith = function (str, prefix) {
+  return str.indexOf(prefix) == 0;
+};
+
+exports.endsWith = function (str, suffix) {
+  return str.lastIndexOf(suffix) == str.length - suffix.length;
+};

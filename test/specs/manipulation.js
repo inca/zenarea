@@ -159,4 +159,32 @@ describe('Manipulation API', function () {
       .run(done);
   });
 
+  it('surround', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._ta
+          .setSelection(6, 10)    // First |line|
+          .surround('“', '”')
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, '“line”');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .surround('“', '”')   // Augments quotes
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, '““line””');
+      })
+      .get.evaluate(function () {
+        return window._ta
+          .surround('“', '”', true)   // De-surround
+          .surround('“', '”', true)   // De-surround
+          .getSelection();
+      }, function (selection) {
+        assert.equal(selection.text, 'line');
+      })
+      .run(done);
+  });
+
 });

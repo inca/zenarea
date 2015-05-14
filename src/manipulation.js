@@ -1,6 +1,7 @@
 'use strict';
 
-var TextArea = require('./index');
+var TextArea = require('./index')
+  , utils = require('./utils');
 
 /**
  * Inserts specified `text` into current caret position.
@@ -100,4 +101,23 @@ TextArea.prototype.outdent = function (indentation) {
   this.insertText(sel.newText);
   this.setSelection(sel.newStart, sel.newEnd);
   return this;
+};
+
+/**
+ * Surrounds currently selected text with `prefix` and `suffix` strings,
+ * extending the selection over inserted characters.
+ *
+ * If `toggle` is specified and currently selected text appears to be
+ * already surrounded, remove `suffix` and `prefix` instead.
+ */
+TextArea.prototype.surround = function (prefix, suffix, toggle) {
+  var sel = this.getSelection();
+  var surrounded = utils.startsWith(sel.text, prefix) &&
+    utils.endsWith(sel.text, suffix);
+  if (toggle && surrounded) {
+    sel.text = sel.text.substring(prefix.length, sel.text.length - suffix.length);
+  } else {
+    sel.text = prefix + sel.text + suffix;
+  }
+  return this.insertText(sel.text, true);
 };
