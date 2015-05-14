@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    <textarea cols="80" rows="24">First line
+Second line
+Third line
+
+New block</textarea>
+    <script src="/textarea.js"></script>
+    <script>
+      new TextArea(document.querySelector('textarea'))
+          .command('Tab', 'indent')
+          .command('Shift + Tab', 'outdent');
+    </script>
+  </body>
+</html>
