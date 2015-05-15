@@ -18,8 +18,8 @@ new ZenArea(document.querySelector('textarea'))
 Congrats, you've just trained your textarea to indent selected lines
 with <kbd>Tab</kbd> and remove indentation with <kbd>Shift</kbd>+<kbd>Tab</kbd>.
 
-You can also bind commands to UI (buttons, menus, etc.) and easily create
-your own commands.
+You can also bind commands to UI (buttons, menus, etc.) and easily [create
+your own commands](#user-content-custom-commands).
 
 [Download latest build](https://raw.githubusercontent.com/inca/zenarea/master/build/zenarea.js)
 
@@ -68,11 +68,11 @@ This library exposes `ZenArea` constructor which accepts a **single** textarea E
 var z = new ZenArea(document.querySelector('textarea'));
 ```
 
-This instance holds all API methods described [below](#API).
+This instance holds all API methods described [below](#user-content-api).
 
 ### Binding commands to keyboard
 
-Commands are simply [API methods](#API) defined on `ZenArea.prototype`.
+Commands are simply [API methods](#user-content-api) defined on `ZenArea.prototype`.
  
 You can bind any command to your keyboard like this:
 
@@ -86,7 +86,7 @@ Pressing <kbd>Ctrl</kbd>+<kbd>B</kbd> is now equivalent to
 z.surround('*', '*', true)
 ```
 
-See? It's also pretty easy to [add your own command](#Custom_commands).
+See? It's also pretty easy to [add your own command](#user-content-custom-commands).
 
 By default ZenArea does not bind any command, it's up to you
 to teach your textarea your favorite kung fu style. 
