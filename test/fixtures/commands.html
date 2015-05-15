@@ -12,7 +12,8 @@ New block</textarea>
     <script>
       new ZenArea(document.querySelector('textarea'))
           .bind('Tab', 'indent')
-          .bind('Shift + Tab', 'outdent');
+          .bind('Shift + Tab', 'outdent')
+          .bind('Meta + D', 'deleteText');
     </script>
   </body>
 </html>

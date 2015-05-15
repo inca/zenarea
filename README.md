@@ -26,8 +26,11 @@ your own commands](#user-content-custom-commands).
 ## Key Features
 
 * Vanilla JavaScript, no dependencies
-* Compatible with Browserify and RequireJS/AMD
+* Supports modern browsers and IE9
+* Designed with/for Browserify
+* Compatible with RequireJS/AMD
 * No custom/shadow elements — only textarea and you
+* Undo/redo friendly
 
 ## Install
 

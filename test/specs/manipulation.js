@@ -43,6 +43,27 @@ describe('Manipulation API', function () {
       .run(done);
   });
 
+  it('deleteText', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._z
+          .select(14, 17)  // Sec|ond| line
+          .deleteText()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.start, 14);
+        assert.equal(selection.length, 0);
+      })
+      .get.evaluate(function () {
+        return window._z
+          .selectCurrentLines()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.value, 'Sec line');
+      })
+      .run(done);
+  });
+
   it('indent at caret', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {

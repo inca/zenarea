@@ -12,13 +12,13 @@ var ZenArea = require('./zenarea')
  * Otherwise the caret is moved to the end of newly inserted text.
  */
 ZenArea.prototype.insertText = function (text, preserveSelection) {
-  var el = this._textarea
-    , sel = this.selection
-    , event = document.createEvent('TextEvent');
-  if (typeof event.initTextEvent == 'function') {
-    event.initTextEvent('textInput', true, true, null, text);
-    el.dispatchEvent(event);
-  } else {
+  var sel = this.selection
+    , el = this._textarea;
+  try {
+    if (typeof window._phantom != 'undefined')
+      throw new Error('phantomjs can\'t execCommand on textarea');
+    document.execCommand('insertText', null, text);
+  } catch (e) {
     var value = el.value;
     el.value = value.substring(0, sel.start) + text + value.substring(sel.end);
   }
@@ -27,6 +27,13 @@ ZenArea.prototype.insertText = function (text, preserveSelection) {
   else
     this.select(sel.start + text.length);
   return this.focus();
+};
+
+/**
+ * Deletes currently selected text.
+ */
+ZenArea.prototype.deleteText = function () {
+  return this.insertText('', false);
 };
 
 /**
