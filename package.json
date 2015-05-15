@@ -1,6 +1,6 @@
 {
   "name": "zenarea",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Unleash the inner power of your textarea",
   "main": "src/index.js",
   "devDependencies": {
@@ -17,7 +17,8 @@
     "gulp-uglify": "*"
   },
   "pre-commit": [
-    "build", "test"
+    "build",
+    "test"
   ],
   "scripts": {
     "pretest": "eslint . && gulp",
