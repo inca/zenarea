@@ -17,9 +17,10 @@
     "gulp-uglify": "*"
   },
   "pre-commit": [
-    "test"
+    "build", "test"
   ],
   "scripts": {
+    "build": "gulp",
     "pretest": "eslint .",
     "test": "mocha -R spec test/specs/index.js -t 10s -s 5s"
   },
