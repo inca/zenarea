@@ -204,4 +204,42 @@ describe('Manipulation API', function () {
       .run(done);
   });
 
+  it('deleteCurrentLines', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._z
+          .select(15, 15)    // Seco|nd line
+          .deleteCurrentLines()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.start, 15);    // Thir|d line
+      })
+      .get.evaluate(function () {
+        return window._z
+          .deleteCurrentLines()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.start, 11);   // <end of second line
+      })
+      .get.evaluate(function () {
+        return window._z
+          .deleteCurrentLines()
+          .deleteCurrentLines()
+          .selectAll()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.value, 'First line\n');
+      })
+      .get.evaluate(function () {
+        return window._z
+          .deleteCurrentLines()
+          .deleteCurrentLines()
+          .selectAll()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.value, '');
+      })
+      .run(done);
+  });
+
 });

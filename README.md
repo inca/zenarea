@@ -30,7 +30,7 @@ your own commands](#user-content-custom-commands).
 * Designed with/for Browserify
 * Compatible with RequireJS/AMD
 * No custom/shadow elements — only textarea and you
-* Undo/redo friendly
+* Undo/redo friendly (well, mostly, see below)
 
 ## Install
 
@@ -191,7 +191,7 @@ z.get(0, 5)
 ```
 
 Selection API delegates to getters to evaluate start/end indices of selection.
-Therefore getters are essentially non-mutatung helpers for their selection
+Therefore getters are essentially non-mutating helpers for their selection
 counterparts.
 
 * `get(start, end)` returns a selection object for a substring between
@@ -202,7 +202,14 @@ counterparts.
 * `getExpandedRight(predicate)`
 * `getExpanded()`
 
+## Known issues
+
+* Undo/redo is known to be broken in IE after manipulation commands.
+
+  This is due to the fact that `initTextEvent` does not remove
+  text when an empty string is passed as an `data`, causing some
+  commands like `deleteText`, `deleteCurrentLines`, etc. to fail silently.
+
 ## License
 
 ISC / Boris Okunskiy
-

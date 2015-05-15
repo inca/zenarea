@@ -126,3 +126,26 @@ ZenArea.prototype.surround = function (prefix, suffix, toggle) {
   }
   return this.insertText(sel.value, true);
 };
+
+/**
+ * Removes currently selected lines entirely, trying to position
+ * the caret exactly below its original position.
+ */
+ZenArea.prototype.deleteCurrentLines = function () {
+  var sel = this.selection
+    , value = this.value;
+  // Determine an offset from line start to preserve it when lines are removed
+  var lineStart = Math.max(0, value.lastIndexOf('\n', sel.start - 1) + 1)
+    , offset = sel.start - lineStart;
+  // Select the lines and remove them
+  var lines = this.getCurrentLines();
+  if (lines.end < value.length) // also remove next line break
+    lines.end += 1;
+  this.select(lines.start, lines.end).deleteText();
+  // Reposition the caret
+  sel = this.selection;
+  value = this.value;
+  var i = value.indexOf('\n', sel.start);
+  i = Math.min(sel.start + offset, i == -1 ? value.length : i);
+  return this.select(i, i);
+};
