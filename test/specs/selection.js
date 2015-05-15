@@ -13,12 +13,12 @@ describe('Selection API', function () {
     browser.run(done);
   });
 
-  it('setSelection', function (done) {
+  it('select', function (done) {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(11, 22)
-          .getSelection();
+          .select(11, 22)
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 11);
         assert.equal(selection.end, 22);
@@ -26,8 +26,8 @@ describe('Selection API', function () {
       })
       .get.evaluate(function () {
         return window._z
-          .setSelection(16)
-          .getSelection();
+          .select(16)
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 16);
         assert.equal(selection.end, 16);
@@ -41,7 +41,7 @@ describe('Selection API', function () {
       .get.evaluate(function () {
         return window._z
           .selectAll()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.length, 44);
       })
@@ -53,14 +53,14 @@ describe('Selection API', function () {
       .get.evaluate(function () {
         return window._z
           .selectLines(1, 2)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second line');
       })
       .get.evaluate(function () {
         return window._z
           .selectLines(1, 1)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 11);
         assert.equal(selection.end, 11);
@@ -68,7 +68,7 @@ describe('Selection API', function () {
       .get.evaluate(function () {
         return window._z
           .selectLines(0, 3)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'First line\nSecond line\nThird line');
       })
@@ -79,10 +79,10 @@ describe('Selection API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(16)     // Caret is on the second line
+          .select(16)     // Caret is on the second line
           .selectCurrentLines()
           .selectCurrentLines() // Calling repeatedly does not affect selection
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 11);
         assert.equal(selection.end, 22);
@@ -90,9 +90,9 @@ describe('Selection API', function () {
       })
       .get.evaluate(function () {
         return window._z
-          .setSelection(1, 2)    // Selection spans first line
+          .select(1, 2)    // Selection spans first line
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 0);
         assert.equal(selection.end, 10);
@@ -105,11 +105,11 @@ describe('Selection API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(16)
+          .select(16)
           .selectLeft(function (sel) {
             return sel.value.length == 4;
           })
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 12);
         assert.equal(selection.end, 16);
@@ -122,11 +122,11 @@ describe('Selection API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(16)
+          .select(16)
           .selectRight(function (sel) {
             return sel.value.length == 4;
           })
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 16);
         assert.equal(selection.end, 20);
@@ -139,23 +139,23 @@ describe('Selection API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(14, 16)       // Sec|on|d ...
+          .select(14, 16)       // Sec|on|d ...
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second');
       })
       .get.evaluate(function () {
         return window._z
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second line');
       })
       .get.evaluate(function () {
         return window._z
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 0);
         assert.equal(selection.length, 44);
@@ -167,23 +167,23 @@ describe('Selection API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(0)
+          .select(0)
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'First');
       })
       .get.evaluate(function () {
         return window._z
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'First line');
       })
       .get.evaluate(function () {
         return window._z
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 0);
         assert.equal(selection.length, 44);
@@ -195,23 +195,23 @@ describe('Selection API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(44)
+          .select(44)
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'block');
       })
       .get.evaluate(function () {
         return window._z
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'New block');
       })
       .get.evaluate(function () {
         return window._z
           .expandSelection()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 0);
         assert.equal(selection.length, 44);

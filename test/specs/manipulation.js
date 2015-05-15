@@ -17,10 +17,10 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(11, 22)  // Select second line
+          .select(11, 22)  // Select second line
           .insertText('Hello, ')
           .insertText('World')
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 23);
         assert.equal(selection.length, 0);
@@ -32,10 +32,10 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(11, 22)  // Select second line
+          .select(11, 22)  // Select second line
           .insertText('Hello, ', true)
           .insertText('World', true)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.start, 11);
         assert.equal(selection.value, 'World');
@@ -47,10 +47,10 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(16)  // Secon|d
+          .select(16)  // Secon|d
           .indent()
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Secon  d line');
       })
@@ -61,16 +61,16 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(15, 16)  // Seco|n|d
+          .select(15, 16)  // Seco|n|d
           .indent()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'n');
       })
       .get.evaluate(function () {
         return window._z
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, '  Second line');
       })
@@ -81,16 +81,16 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(8, 14)    // First li|ne Sec|ond
+          .select(8, 14)    // First li|ne Sec|ond
           .indent()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'ne\n  Sec');
       })
       .get.evaluate(function () {
         return window._z
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, '  First line\n  Second line');
       })
@@ -101,10 +101,10 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(16)  // Secon|d
+          .select(16)  // Secon|d
           .outdent()
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second line');
       })
@@ -115,17 +115,17 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(15, 16)  // Seco|n|d
+          .select(15, 16)  // Seco|n|d
           .indent()
           .outdent()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'n');
       })
       .get.evaluate(function () {
         return window._z
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second line');
       })
@@ -136,19 +136,19 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(8, 14)    // First li|ne Sec|ond
+          .select(8, 14)    // First li|ne Sec|ond
           .indent()
           .indent()
           .outdent()
           .outdent()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'ne\nSec');
       })
       .get.evaluate(function () {
         return window._z
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'First line\nSecond line');
       })
@@ -159,16 +159,16 @@ describe('Manipulation API', function () {
     browser.open('/simple.html')
       .get.evaluate(function () {
         return window._z
-          .setSelection(6, 10)    // First |line|
+          .select(6, 10)    // First |line|
           .surround('“', '”')
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, '“line”');
       })
       .get.evaluate(function () {
         return window._z
           .surround('“', '”')   // Augments quotes
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, '““line””');
       })
@@ -176,7 +176,7 @@ describe('Manipulation API', function () {
         return window._z
           .surround('“', '”', true)   // De-surround
           .surround('“', '”', true)   // De-surround
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'line');
       })

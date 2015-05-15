@@ -121,7 +121,7 @@ z.bind('Ctrl + H', 'sayHello', ['World']);
 
 ### Selection
 
-* `getSelection()` returns current user selection like this:
+* `selection` property returns current user selection like this:
 
     ```js
     {
@@ -132,18 +132,19 @@ z.bind('Ctrl + H', 'sayHello', ['World']);
     }
     ```
     
-* `setSelection(start[, end])`
+* `select(start[, end])` sets user selection range to specified indices
+  (e.g. `z.select(0, z.value.length)` selects everything in textarea)
 
-* `selectAll()`
+* `selectAll()` — select everything
 
-* `selectLines(start[, end])`
+* `selectLines(start[, end])` — select lines between specified indices
 
 * `selectCurrentLines()` — expand selection in both directions up to line boundaries
 
 * `selectLeft(predicateFn)` — expand selection to the left until `predicateFn(sel)`
   returns `true`
 
-* `selectRight(predicateFn)`
+* `selectRight(predicateFn)` 
 
 * `expandSelection()` — expand selection: from caret to word, from word to line,
   from line to everything
@@ -174,6 +175,29 @@ z.bind('Ctrl + H', 'sayHello', ['World']);
   current selection
 * `replaceAll(regex, replacement)` — replaces all matches of `regex` with `replacement`
   (the `g` flag on regex is mandatory, otherwise just replaces first occurrence)
+  
+### Getters
+
+Getters return selection objects without modifying actual user selection in
+textarea:
+
+```
+z.get(0, 5)
+// { start: 0, end: 5, length: 5, value: 'Hello' }
+// current user selection not modified
+```
+
+Selection API delegates to getters to evaluate start/end indices of selection.
+Therefore getters are essentially non-mutatung helpers for their selection
+counterparts.
+
+* `get(start, end)` returns a selection object for a substring between
+  specified indices
+* `getLines(start, end)`
+* `getCurrentLines()`
+* `getExpandedLeft(predicate)`
+* `getExpandedRight(predicate)`
+* `getExpanded()`
 
 ## License
 

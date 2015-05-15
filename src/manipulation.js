@@ -13,7 +13,7 @@ var ZenArea = require('./zenarea')
  */
 ZenArea.prototype.insertText = function (text, preserveSelection) {
   var el = this._textarea
-    , sel = this.getSelection()
+    , sel = this.selection
     , event = document.createEvent('TextEvent');
   if (typeof event.initTextEvent == 'function') {
     event.initTextEvent('textInput', true, true, null, text);
@@ -23,9 +23,9 @@ ZenArea.prototype.insertText = function (text, preserveSelection) {
     el.value = value.substring(0, sel.start) + text + value.substring(sel.end);
   }
   if (preserveSelection)
-    this.setSelection(sel.start, sel.start + text.length);
+    this.select(sel.start, sel.start + text.length);
   else
-    this.setSelection(sel.start + text.length);
+    this.select(sel.start + text.length);
   return this.focus();
 };
 
@@ -38,7 +38,7 @@ ZenArea.prototype.insertText = function (text, preserveSelection) {
 ZenArea.prototype.indent = function (indentation) {
   if (indentation == null)
     indentation = '  ';
-  var origSel = this.getSelection()
+  var origSel = this.selection
     , value = this.value;
   if (!origSel.length)
     return this.insertText(indentation);
@@ -54,9 +54,9 @@ ZenArea.prototype.indent = function (indentation) {
   sel.newStart = origSel.start + indentation.length;
   sel.newEnd = origSel.end + sel.newValue.length - sel.value.length;
   // Apply new stuff
-  this.setSelection(sel.start, sel.end);
+  this.select(sel.start, sel.end);
   this.insertText(sel.newValue);
-  this.setSelection(sel.newStart, sel.newEnd);
+  this.select(sel.newStart, sel.newEnd);
   return this.focus();
 };
 
@@ -67,7 +67,7 @@ ZenArea.prototype.indent = function (indentation) {
 ZenArea.prototype.outdent = function (indentation) {
   if (indentation == null)
     indentation = '  ';
-  var origSel = this.getSelection()
+  var origSel = this.selection
     , value = this.value;
   // Expand up to line start
   var sel = {
@@ -97,9 +97,9 @@ ZenArea.prototype.outdent = function (indentation) {
   // Recalc selection
   sel.newEnd = origSel.end - (sel.value.length - sel.newValue.length);
   // Apply new stuff
-  this.setSelection(sel.start, sel.end);
+  this.select(sel.start, sel.end);
   this.insertText(sel.newValue);
-  this.setSelection(sel.newStart, sel.newEnd);
+  this.select(sel.newStart, sel.newEnd);
   return this.focus();
 };
 
@@ -111,7 +111,7 @@ ZenArea.prototype.outdent = function (indentation) {
  * already surrounded, remove `suffix` and `prefix` instead.
  */
 ZenArea.prototype.surround = function (prefix, suffix, toggle) {
-  var sel = this.getSelection();
+  var sel = this.selection;
   var surrounded = utils.startsWith(sel.value, prefix) &&
     utils.endsWith(sel.value, suffix);
   if (toggle && surrounded) {

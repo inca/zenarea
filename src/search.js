@@ -16,7 +16,7 @@ ZenArea.prototype.find = function (regex, index) {
   var area = this.value.substring(index);
   var match = regex.exec(area);
   if (match)
-    return this.setSelection(index + match.index,
+    return this.select(index + match.index,
         index + match.index + match[0].length);
   return this.focus();
 };
@@ -25,7 +25,7 @@ ZenArea.prototype.find = function (regex, index) {
  * Like `find`, but start at the end of current user selection.
  */
 ZenArea.prototype.findNext = function (regex) {
-  var sel = this.getSelection();
+  var sel = this.selection;
   return this.find(regex, sel.end);
 };
 
@@ -35,7 +35,7 @@ ZenArea.prototype.findNext = function (regex) {
  */
 ZenArea.prototype.replace = function (regex, replacement, index) {
   this.find(regex, index);
-  var sel = this.getSelection();
+  var sel = this.selection;
   if (regex.test(sel.value))  // Ensure we have found it
     return this.insertText(sel.value.replace(regex, replacement), true);
   return this.focus();
@@ -45,7 +45,7 @@ ZenArea.prototype.replace = function (regex, replacement, index) {
  * Like `replace`, but start at the end of current user selection.
  */
 ZenArea.prototype.replaceNext = function (regex, replacement) {
-  var sel = this.getSelection();
+  var sel = this.selection;
   return this.replace(regex, replacement, sel.end);
 };
 

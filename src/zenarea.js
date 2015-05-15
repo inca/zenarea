@@ -76,6 +76,7 @@ ZenArea.prototype.bind = function (key, command, args) {
   return this;
 };
 
+require('./getters');
 require('./selection');
 require('./search');
 require('./manipulation');

@@ -18,14 +18,14 @@ describe('Search and replace API', function () {
       .get.evaluate(function () {
         return window._z
           .find(/LINE/i, 9)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'line');
       })
       .get.evaluate(function () {
         return window._z
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second line');
       })
@@ -38,7 +38,7 @@ describe('Search and replace API', function () {
         return window._z
           .findNext(/Second/i)
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second line');
       })
@@ -46,7 +46,7 @@ describe('Search and replace API', function () {
         return window._z
           .findNext(/line/i)
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Third line');
       })
@@ -58,14 +58,14 @@ describe('Search and replace API', function () {
       .get.evaluate(function () {
         return window._z
           .replace(/LINE/i, 'string', 9)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'string');
       })
       .get.evaluate(function () {
         return window._z
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second string');
       })
@@ -79,7 +79,7 @@ describe('Search and replace API', function () {
           .replaceNext(/LINE/i, 'string')
           .replaceNext(/LINE/i, 'string')
           .selectCurrentLines()
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'Second string');
       })
@@ -92,7 +92,7 @@ describe('Search and replace API', function () {
         return window._z
           .replaceAll(/\s*LINE/gi, '')
           .selectLines(0, 3)
-          .getSelection();
+          .selection;
       }, function (selection) {
         assert.equal(selection.value, 'First\nSecond\nThird');
       })
