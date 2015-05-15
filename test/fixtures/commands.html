@@ -11,8 +11,8 @@ New block</textarea>
     <script src="/build/zenarea.js"></script>
     <script>
       new ZenArea(document.querySelector('textarea'))
-          .command('Tab', 'indent')
-          .command('Shift + Tab', 'outdent');
+          .bind('Tab', 'indent')
+          .bind('Shift + Tab', 'outdent');
     </script>
   </body>
 </html>

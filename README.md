@@ -11,8 +11,8 @@ Add a few lines of code:
 
 ```js
 new ZenArea(document.querySelector('textarea'))
-  .command('Tab', 'indent')
-  .command('Shift + Tab', 'outdent');
+  .bind('Tab', 'indent')
+  .bind('Shift + Tab', 'outdent');
 ```
 
 Congrats, you've just trained your textarea to indent selected lines
@@ -64,7 +64,7 @@ The `ZenArea` class is now bound to `window`.
 
 This library exposes `ZenArea` constructor which accepts a **single** textarea Element:
 
-```
+```js
 var z = new ZenArea(document.querySelector('textarea'));
 ```
 
@@ -77,7 +77,7 @@ Commands are simply [API methods](#API) defined on `ZenArea.prototype`.
 You can bind any command to your keyboard like this:
 
 ```js
-z.command('Ctrl + B', 'surround', ['*', '*', true]);
+z.bind('Ctrl + B', 'surround', ['*', '*', true]);
 ```
 
 Pressing <kbd>Ctrl</kbd>+<kbd>B</kbd> is now equivalent to
@@ -114,7 +114,7 @@ ZenArea.prototype.sayHello = function(name) {
 Here's how you bind this command to <kbd>Ctrl</kbd>+<kbd>H</kbd>:
 
 ```
-z.command('Ctrl + H', 'sayHello', ['World']);
+z.bind('Ctrl + H', 'sayHello', ['World']);
 ```
 
 ## API
