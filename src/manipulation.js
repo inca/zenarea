@@ -14,11 +14,9 @@ var ZenArea = require('./zenarea')
 ZenArea.prototype.insertText = function (text, preserveSelection) {
   var sel = this.selection
     , el = this._textarea;
-  try {
-    if (typeof window._phantom != 'undefined')
-      throw new Error('phantomjs can\'t execCommand on textarea');
+  if (typeof window.chrome != 'undefined') {
     document.execCommand('insertText', null, text);
-  } catch (e) {
+  } else {
     var value = el.value;
     el.value = value.substring(0, sel.start) + text + value.substring(sel.end);
   }
