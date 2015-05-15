@@ -1,6 +1,6 @@
 {
   "name": "zenarea",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Unleash the inner power of your textarea",
   "main": "src/index.js",
   "devDependencies": {
