@@ -242,4 +242,27 @@ describe('Manipulation API', function () {
       .run(done);
   });
 
+  it('duplicate', function (done) {
+    browser.open('/simple.html')
+      .get.evaluate(function () {
+        return window._z
+          .select(15, 15)    // Seco|nd line
+          .duplicate()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.start, 27);
+        assert.equal(selection.length, 0);
+      })
+      .get.evaluate(function () {
+        return window._z
+          .select(14, 17)    // Sec|ond| line
+          .duplicate()
+          .selectCurrentLines()
+          .selection;
+      }, function (selection) {
+        assert.equal(selection.value, 'Secondond line');
+      })
+      .run(done);
+  });
+
 });

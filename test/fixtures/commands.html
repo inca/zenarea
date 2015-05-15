@@ -13,7 +13,8 @@ New block</textarea>
       new ZenArea(document.querySelector('textarea'))
           .bind('Tab', 'indent')
           .bind('Shift + Tab', 'outdent')
-          .bind('Meta + Y', 'deleteCurrentLines');
+          .bind('Meta + Y', 'deleteCurrentLines')
+          .bind('Meta + D', 'duplicate');
     </script>
   </body>
 </html>

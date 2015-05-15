@@ -149,3 +149,18 @@ ZenArea.prototype.deleteCurrentLines = function () {
   i = Math.min(sel.start + offset, i == -1 ? value.length : i);
   return this.select(i, i);
 };
+
+/**
+ * Duplicates selection or, if nothing is selected, duplicates current line instead.
+ */
+ZenArea.prototype.duplicate = function () {
+  var sel = this.selection;
+  if (!sel.length) {    // duplicate current line
+    var line = this.getCurrentLines();
+    return this.select(line.end)
+      .insertText('\n' + line.value)
+      .select(sel.start + line.value.length + 1);
+  }
+  return this.select(sel.end)
+    .insertText(sel.value, true);
+};
